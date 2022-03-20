@@ -33,6 +33,7 @@ class Gallery extends Component {
               harga: 0,
               cover: "",
               selectedItem: null,
+              user: "",
           }
           this.state.filterBuku = this.state.buku
   }   
@@ -40,6 +41,9 @@ class Gallery extends Component {
 render(){
           return(         
               <div className="container">
+                  <h4 className="text-info my-2">
+                      Username : {this.state.user}                  
+                  </h4>
                         <input type="text" className="form-control my-2" placeholder="Pencarian"
                 value={this.state.keyword}
                 onChange={ev => this.setState({keyword: ev.target.value})}
@@ -58,11 +62,8 @@ render(){
                         onDrop={ () => this.Drop(item)}
                          />
                     )) }
-
-
-                  </div>
+                  </div>    
                   
-   
                   <button className="btn btn-success" onClick={() => this.Add()}>
                       Tambah Data
                   </button>
@@ -119,7 +120,6 @@ render(){
                 onChange={ev => this.setState({keyword: ev.target.value})}
                 onKeyUp={ev => this.searching(ev)}
                  />
-
 
                               </div>
                           </div>
@@ -220,6 +220,27 @@ Drop = (item) => {
               this.setState({filterBuku: result})
           }
       }
+
+    
+    setUser = () => {
+        if(localStorage.getItem("user") === null){
+            let prompt = window.prompt("Insert Username","")
+            if(prompt === null || prompt === ""){
+                this.setUser()
+            }else{
+                localStorage.setItem("user", prompt)
+                this.setState({user: prompt})
+            }
+        }else{
+           //session storage already made
+            let name = localStorage.getItem("user")
+            this.setState({user: name})
+        }
+    }
+
+    componentDidMount(){
+        this.setUser()
+    }
   
   }  
 

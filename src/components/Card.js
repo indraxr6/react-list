@@ -39,6 +39,13 @@ class Card extends React.Component{
                             onClick={this.props.onDrop}>
                                 Hapus
                             </button>
+ 
+                            {/* button untuk menambah ke keranjang belanja */}
+                            <button className="btn btn-sm btn-success m-1"
+                            onClick={this.props.onCart}>
+                                Add to cart
+                            </button>
+
                         </div>
                     </div>
                 </div>
