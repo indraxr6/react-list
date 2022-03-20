@@ -5,6 +5,8 @@ import About from "./pages/About"
 import Contact from "./pages/Contact"
 import Gallery from "./pages/Gallery"
 import Cart from "./pages/Cart"
+import Pegawai from "./Pegawai"
+
 
 
 class Main extends React.Component{
@@ -16,7 +18,7 @@ class Main extends React.Component{
                 <Route path="/contact" element={<Contact/>} />
                 <Route path="/gallery" element={<Gallery/>} />
                 <Route path="/cart" element={<Cart/>} />
-
+                <Route path="/pegawai" element={<Pegawai/>} />
             </Routes>
         )
     }
