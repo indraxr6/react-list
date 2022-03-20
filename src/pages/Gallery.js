@@ -60,6 +60,7 @@ render(){
                         cover={item.cover}
                         onEdit={ () => this.Edit(item)}
                         onDrop={ () => this.Drop(item)}
+                        onCart={ () => this.addToCart(item)}
                          />
                     )) }
                   </div>    
@@ -68,7 +69,6 @@ render(){
                       Tambah Data
                   </button>
    
-                  {/* component modal sbg control manipulasi data */}
                   <div className="modal" id="modal_buku">
                       <div className="modal-dialog">
                           <div className="modal-content">
@@ -130,7 +130,7 @@ render(){
           
       }
       Add = () => {
-          // menampilkan komponen modal
+          
           $("#modal_buku").modal("show")
           this.setState({
               isbn: Math.random(1,10000000),
@@ -143,7 +143,7 @@ render(){
           })
       }
       Edit = (item) => {
-          // menampilkan komponen modal
+          
           $("#modal_buku").modal("show")
           this.setState({
               isbn: item.isbn,
@@ -159,11 +159,10 @@ render(){
 
           Save = (event) => {
           event.preventDefault();
-          // menampung data state buku
           let tempBuku = this.state.buku
    
           if (this.state.action === "insert") {
-              // menambah data baru
+              // push / add new data array
               tempBuku.push({
                   isbn: this.state.isbn,
                   judul: this.state.judul,
@@ -173,7 +172,7 @@ render(){
                   harga: this.state.harga,
               })
           }else if(this.state.action === "update"){
-              // menyimpan perubahan data
+             
               let index = tempBuku.indexOf(this.state.selectedItem)
               tempBuku[index].isbn = this.state.isbn
               tempBuku[index].judul = this.state.judul
@@ -184,31 +183,22 @@ render(){
           }
    
           this.setState({buku : tempBuku})
-          
-          // menutup komponen modal_buku
-          $("#modal_buku").modal("hide")
+          $("#modal_buku").modal("hide") //close modal
    }
    
-Drop = (item) => {
-          // beri konfirmasi untuk menghapus data
-          if(window.confirm("Apakah anda yakin ingin menghapus data ini?")){
-              // menghapus data
-              let tempBuku = this.state.buku
-              // posisi index data yg akan dihapus
-              let index = tempBuku.indexOf(item)
-   
-              // hapus data
-              tempBuku.splice(index, 1)
-   
-              this.setState({buku: tempBuku})
-          }
-    }
+        Drop = (item) => {
+                
+                if(window.confirm("Apakah anda yakin ingin menghapus data ini?")){
+                    let tempBuku = this.state.buku
+                    let index = tempBuku.indexOf(item) //selected data index
+                    tempBuku.splice(index, 1) //delete based on index
+                    this.setState({buku: tempBuku})
+                }
+            }
   
 
     searching = event => {
-          if(event.keyCode === 13){
-              // 13 adalah kode untuk tombol enter
-   
+          if(event.keyCode === 13){   
               let keyword = this.state.keyword.toLowerCase()
               let tempBuku = this.state.buku
               let result = tempBuku.filter(item => {
@@ -223,23 +213,41 @@ Drop = (item) => {
 
     
     setUser = () => {
-        if(localStorage.getItem("user") === null){
+        if(sessionStorage.getItem("user") === null){
             let prompt = window.prompt("Insert Username","")
             if(prompt === null || prompt === ""){
                 this.setUser()
             }else{
-                localStorage.setItem("user", prompt)
+                sessionStorage.setItem("user", prompt)
                 this.setState({user: prompt})
             }
         }else{
-           //session storage already made
-            let name = localStorage.getItem("user")
+           // if session storage already made
+            let name = sessionStorage.setItem("user")
             this.setState({user: name})
         }
     }
 
     componentDidMount(){
         this.setUser()
+    }
+
+    addToCart = (selectedItem) => {
+        let tempCart = []
+        if(localStorage.getItem("cart") !== null){
+            tempCart = JSON.parse(localStorage.getItem("cart")) //convert string to json array
+        }
+        let existItem = tempCart.find(item => item.isbn === selectedItem.isbn)
+        if (existItem) {
+            window.alert("Item selected already exist in cart")
+        } else {
+            let qtyPrompt = window.prompt("Insert Quantity", "")
+            if (qtyPrompt !== null || qtyPrompt !== "") {
+                selectedItem.qty = qtyPrompt // add qty to selected item
+                tempCart.push(selectedItem)
+                localStorage.setItem("cart", JSON.stringify(tempCart)) //save array tempcart to local storage
+            }
+        }
     }
   
   }  

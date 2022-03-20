@@ -5,7 +5,7 @@ class Navbar extends React.Component{
         return(
             <div className="navbar navbar-expand-lg bg-primary navbar-light">
                 <a className="navbar-brand" href="#">
-                    Single Page Application
+                    Book Store
                 </a>
 
                 {/* show and hide menu */}
@@ -35,6 +35,11 @@ class Navbar extends React.Component{
                         <li className="nav-item">
                             <Link to="/gallery" className="nav-link">
                                 Gallery
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/cart" className="nav-link">
+                                Cart
                             </Link>
                         </li>
                         
