@@ -39,9 +39,9 @@ class Cart extends Component {
                                     <tr key={index}>
                                         <td>{item.judul}</td>
                                         <td>Rp {item.harga}</td>
-                                        <td>{item.jumlahBeli}</td>
+                                        <td>{item.qty}</td>
                                         <td>
-                                            Rp { item.harga * item.jumlahBeli }
+                                            Rp { item.harga * item.qty }
                                         </td>
                                     </tr>
                                 ) ) }
@@ -66,7 +66,7 @@ class Cart extends Component {
                     let userName = sessionStorage.getItem("user")
                     let totalPrice = 0;
                     tempCart.map(item => {
-                              totalPrice += (item.price * item.qty)
+                              totalPrice += (item.harga * item.qty)
                     })
 
                     this.setState({

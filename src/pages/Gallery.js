@@ -223,9 +223,9 @@ render(){
             }
         }else{
            // if session storage already made
-            let name = sessionStorage.setItem("user")
+            let name = sessionStorage.getItem("user")
             this.setState({user: name})
-        }
+        }   
     }
 
     componentDidMount(){
